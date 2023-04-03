@@ -1,10 +1,39 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Header from "./components/Header";
 import TasksContainer from "./components/TasksContainer";
-import TaskList from "./components/Tasks/TaskList";
+import TodoList from "./components/Tasks/TodoList";
 import AddTaskModal from "./components/Tasks/AddTaskModal";
+import { useAppSelector } from "./store";
+import { OrderBy } from "./store/features/appControl.store";
+import { TodoType } from "./store/features/todos.store";
 
 function App() {
+  const todos = useAppSelector((state) => state.todos.todoList);
+  const orderBy = useAppSelector((state) => state.AppControl.orderBy);
+  const [mappedTodos, setMappedTodos] = useState(todos);
+
+  useEffect(() => {
+    let sorted: TodoType[] = todos.map((t) => t);
+    console.log(orderBy);
+    switch (orderBy.order) {
+      case OrderBy.Insertion:
+        sorted = orderBy.asc ? sorted.reverse() : sorted;
+        break;
+      case OrderBy.Alphabetical:
+        sorted = sorted.sort((a, b) => {
+          let compare = a.title.toLowerCase() > b.title.toLowerCase();
+          compare = orderBy.asc ? compare : !compare;
+          return compare ? 1 : -1;
+        });
+        break;
+      case OrderBy.Complete:
+        break;
+      case OrderBy.Important:
+        break;
+    }
+    setMappedTodos(sorted);
+  }, [orderBy, todos]);
+
   return (
     <div
       className={
@@ -13,7 +42,7 @@ function App() {
     >
       <Header>The simple ToDo App!</Header>
       <TasksContainer>
-        <TaskList />
+        <TodoList todos={mappedTodos} />
       </TasksContainer>
     </div>
   );

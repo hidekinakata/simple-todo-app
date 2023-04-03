@@ -3,6 +3,8 @@ import CustomButtom from "./Utils/CustomButtom";
 import OrderbyDropdown from "./Utils/OrderbyDropdown";
 import AddTaskModal from "./Tasks/AddTaskModal";
 import { OrderBy } from "../store/features/appControl.store";
+import { useAppDispatch, useAppSelector } from "../store";
+import { actions as AppControl } from "../store/features/appControl.store";
 
 interface TasksContainerType extends React.PropsWithChildren {}
 
@@ -15,13 +17,7 @@ const TasksContainer: React.FC<TasksContainerType> = ({ children }) => {
         <CustomButtom onClick={() => setModalOpen(true)}>
           + Add To-do
         </CustomButtom>
-        <OrderbyDropdown
-          selectLabel={"Order by"}
-          values={Object.values(OrderBy).filter((v) => Number(v) >= 0)}
-          labels={
-            Object.values(OrderBy).filter((v) => !(Number(v) >= 0)) as string[]
-          }
-        />
+        <OrderbyDropdown />
       </div>
       <div>{children}</div>
       <AddTaskModal modalOpen={modalOpen} setModalOpen={setModalOpen} />{" "}

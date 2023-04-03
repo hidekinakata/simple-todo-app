@@ -1,47 +1,51 @@
-import React, { MouseEventHandler, useEffect, useState } from "react";
-import { FaSortAmountDown } from "react-icons/fa";
-import { VscFoldDown, VscFoldUp } from "react-icons/vsc";
+import React, { useEffect, useState } from "react";
+import { FaSortAmountDownAlt, FaSortAmountUpAlt } from "react-icons/fa";
+import { VscFoldDown } from "react-icons/vsc";
+import { useAppDispatch, useAppSelector } from "../../store";
+import {
+  actions as AppControl,
+  OrderBy,
+} from "../../store/features/appControl.store";
 
-type CustomSelectType = {
-  selectLabel: string;
-  values: any[];
-  labels: string[];
-  onSelect?: (value: any, label: string) => any;
-};
+type CustomSelectType = {};
 
-const OrderbyDropdown: React.FC<CustomSelectType> = ({
-  selectLabel,
-  values,
-  labels,
-  onSelect,
-}) => {
+const OrderbyDropdown: React.FC<CustomSelectType> = ({}) => {
+  const values = Object.values(OrderBy).filter((v) => Number(v) >= 0);
+
+  const labels = Object.values(OrderBy).filter(
+    (v) => !(Number(v) >= 0)
+  ) as string[];
+  const orderBy = useAppSelector((state) => state.AppControl.orderBy);
+  const dispatch = useAppDispatch();
+
   const [showDropdown, setShowDropdown] = useState(true);
-  const [selecValue, setSelecValue] = useState<null | any>(values[0]);
-  const [selecLabel, setSelecLabel] = useState<null | any>(labels[0]);
-  if (onSelect) {
-    onSelect(values[0], labels[0]);
-  }
+  const [selectValue, setSelectValue] = useState<null | any>(orderBy.order);
+  const [selectLabel, setSelectLabel] = useState<null | any>(
+    labels[orderBy.order]
+  );
+  const [ascending, setAscending] = useState(orderBy.asc);
 
   const handleSelect = (i: any) => {
-    setSelecValue(values[i]);
-    setSelecLabel(labels[i]);
-    if (onSelect) {
-      onSelect(selecValue, selecLabel);
-    }
+    setSelectValue(values[i]);
+    setSelectLabel(labels[i]);
   };
 
   useEffect(() => {
+    dispatch(AppControl.setOrderBy({ order: selectValue, asc: ascending }));
+  }, [ascending, selectValue]);
+
+  useEffect(() => {
     setShowDropdown(false);
-  }, [selecValue]);
+  }, [selectValue]);
 
   return (
-    <div
-      className={"relative min-w-[10rem] sm:min-w-[15rem] flex flex-col"}
-      onClick={() => setShowDropdown((oldValue) => !oldValue)}
-    >
-      <span className={"w-fit text-slate-700 self-end"}>{selectLabel}</span>
+    <div className={"relative min-w-[10rem] sm:min-w-[15rem] flex flex-col"}>
+      <span className={"w-fit text-slate-700 self-end"}>Order by</span>
       <div className={"grid grid-cols-[auto_min-content] gap-1 items-center"}>
-        <div className="h-10 rounded cursor-pointer relative bg-pink-500 w-full sm:w-1/2 md:w-1/3 justify-self-end">
+        <div
+          className="h-10 rounded cursor-pointer relative bg-pink-500 w-full sm:w-1/2 md:w-1/3 justify-self-end"
+          onClick={() => setShowDropdown((oldValue) => !oldValue)}
+        >
           <VscFoldDown
             className={`transition duration-500 h-4 w-4 absolute right-3 top-1/2 -translate-y-1/2 text-white stroke-1 ${
               showDropdown ? "rotate-180" : ""
@@ -49,7 +53,7 @@ const OrderbyDropdown: React.FC<CustomSelectType> = ({
           />
 
           <span className="absolute top-1/2 left-3 -translate-y-1/2 text-white text-xs sm:text-base">
-            {selecLabel}
+            {selectLabel}
           </span>
           <ul
             className={`duration-200 z-50 w-full mt-1 absolute top-full bg-pink-100 rounded 
@@ -72,8 +76,9 @@ const OrderbyDropdown: React.FC<CustomSelectType> = ({
           className={
             "w-10 h-10 rounded cursor-pointer relative bg-pink-500 text-white flex justify-center items-center"
           }
+          onClick={() => setAscending((prevState) => !prevState)}
         >
-          <FaSortAmountDown />
+          {ascending ? <FaSortAmountDownAlt /> : <FaSortAmountUpAlt />}
         </div>
       </div>
     </div>
