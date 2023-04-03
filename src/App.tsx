@@ -27,8 +27,19 @@ function App() {
         });
         break;
       case OrderBy.Complete:
+        const completed = sorted.filter((t) => t.completed);
+        const uncompleted = sorted.filter((t) => !t.completed);
+        sorted = orderBy.asc
+          ? [...uncompleted, ...completed]
+          : [...completed, ...uncompleted];
         break;
       case OrderBy.Important:
+        const important = sorted.filter((t) => t.important);
+        const notImportant = sorted.filter((t) => !t.important);
+        sorted = orderBy.asc
+          ? [...notImportant, ...important]
+          : [...important, ...notImportant];
+
         break;
     }
     setMappedTodos(sorted);

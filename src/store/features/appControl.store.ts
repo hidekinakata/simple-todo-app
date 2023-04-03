@@ -13,7 +13,7 @@ type AppControlType = {
 };
 
 const initialValue: AppControlType = {
-  orderBy: { order: OrderBy.Insertion, asc: false },
+  orderBy: { order: OrderBy.Insertion, asc: true },
 };
 
 export const AppControlSlice = createSlice({
