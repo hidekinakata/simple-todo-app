@@ -1,14 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import CustomButtom from "./Utils/CustomButtom";
 import CustomSelect from "./Utils/CustomSelect";
+import AddTaskModal from "./Tasks/AddTaskModal";
 
 interface TasksContainerType extends React.PropsWithChildren {}
 
 const TasksContainer: React.FC<TasksContainerType> = ({ children }) => {
+  const [modalOpen, setModalOpen] = useState(true);
+
   return (
     <div className={"p-10"}>
       <div className={"flex justify-between items-center"}>
-        <CustomButtom>+ Add Task</CustomButtom>
+        <CustomButtom onClick={() => setModalOpen(true)}>
+          + Add Task
+        </CustomButtom>
         <CustomSelect
           selectLabel={"Order by"}
           values={[1, 2, 3]}
@@ -16,6 +21,7 @@ const TasksContainer: React.FC<TasksContainerType> = ({ children }) => {
         />
       </div>
       <div>{children}</div>
+      <AddTaskModal modalOpen={modalOpen} setModalOpen={setModalOpen} />{" "}
     </div>
   );
 };
