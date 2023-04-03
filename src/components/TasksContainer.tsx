@@ -6,7 +6,7 @@ import AddTaskModal from "./Tasks/AddTaskModal";
 interface TasksContainerType extends React.PropsWithChildren {}
 
 const TasksContainer: React.FC<TasksContainerType> = ({ children }) => {
-  const [modalOpen, setModalOpen] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
 
   return (
     <div className={"p-10"}>

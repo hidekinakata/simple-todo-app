@@ -3,6 +3,8 @@ import { VscAdd, VscClose } from "react-icons/vsc";
 import CustomButtom from "../Utils/CustomButtom";
 import { AiFillStar, AiOutlineStar } from "react-icons/ai";
 import { IconContext } from "react-icons";
+import { actions } from "../../store/features/todos.store";
+import { useAppDispatch } from "../../store";
 
 type AddTaskModalType = {
   modalOpen: boolean;
@@ -16,10 +18,19 @@ const AddTaskModal: React.FC<AddTaskModalType> = ({
   const [title, setTitle] = useState("");
   const [status, setStatus] = useState("incomplete");
   const [important, setImportant] = useState(false);
+  const dispatch = useAppDispatch();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log({ title, status, important });
+    dispatch(
+      actions.addTodo({
+        title: title,
+        completed: status === "complete",
+        important: important,
+      })
+    );
+    setModalOpen(false);
   };
 
   return (

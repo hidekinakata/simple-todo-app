@@ -1,9 +1,12 @@
 import React from "react";
+import { TodoType } from "../../store/features/todos.store";
 
-type TaskItemType = {};
+type TaskItemType = {
+  todo: TodoType;
+};
 
-const TaskItem: React.FC<TaskItemType> = (props) => {
-  return <li>dasdasdasdasdasdasdasdasdasdasdasd</li>;
+const TaskItem: React.FC<TaskItemType> = ({ todo }) => {
+  return <li>{todo.title}</li>;
 };
 
 export default TaskItem;
