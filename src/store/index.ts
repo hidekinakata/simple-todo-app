@@ -1,9 +1,13 @@
 import { todoSlice } from "./features/todos.store";
 import { configureStore } from "@reduxjs/toolkit";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
+import { AppControlSlice } from "./features/appControl.store";
 
 const store = configureStore({
-  reducer: { todos: todoSlice.reducer },
+  reducer: {
+    AppControl: AppControlSlice.reducer,
+    todos: todoSlice.reducer,
+  },
 });
 
 export const useAppDispatch: () => typeof store.dispatch = useDispatch;
