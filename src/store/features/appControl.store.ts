@@ -9,18 +9,21 @@ export enum OrderBy {
 }
 
 type AppControlType = {
-  orderBy: OrderBy;
+  orderBy: { order: OrderBy; asc: boolean };
 };
 
 const initialValue: AppControlType = {
-  orderBy: OrderBy.Insertion,
+  orderBy: { order: OrderBy.Insertion, asc: true },
 };
 
 export const AppControlSlice = createSlice({
   name: "todos",
   initialState: initialValue,
   reducers: {
-    setOrderBy: (state, action: PayloadAction<OrderBy>) => {
+    setOrderBy: (
+      state,
+      action: PayloadAction<{ order: OrderBy; asc: boolean }>
+    ) => {
       state.orderBy = action.payload;
     },
   },
