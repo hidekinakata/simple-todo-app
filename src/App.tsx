@@ -15,8 +15,6 @@ function App() {
       <TasksContainer>
         <TaskList />
       </TasksContainer>
-
-      <AddTaskModal />
     </div>
   );
 }
