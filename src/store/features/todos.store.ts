@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuid } from "uuid";
+
 export interface TodoType {
   id: string;
   title: string;
@@ -31,13 +32,22 @@ export const todoSlice = createSlice({
         id: uuid(),
         ...action.payload,
       };
-
       state.todoList.push(newTodo);
-
       setLocalTodos(state.todoList);
     },
-    updateTodo: (state, action) => {},
-    deleteTodo: (state, action) => {},
+    updateTodo: (state, action: PayloadAction<TodoType>) => {
+      const todo = state.todoList.filter((t) => t.id === action.payload.id)[0];
+      if (todo) {
+        todo.title = action.payload.title;
+        todo.important = action.payload.important;
+        todo.completed = action.payload.completed;
+        setLocalTodos(state.todoList);
+      }
+    },
+    deleteTodo: (state, action) => {
+      state.todoList = state.todoList.filter((t) => t.id !== action.payload.id);
+      setLocalTodos(state.todoList);
+    },
   },
 });
 
