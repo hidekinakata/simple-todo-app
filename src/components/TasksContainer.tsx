@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { createContext, useState } from "react";
 import CustomButtom from "./Utils/CustomButtom";
 import OrderbyDropdown from "./Utils/OrderbyDropdown";
 import AddTaskModal from "./Tasks/AddTaskModal";
@@ -9,7 +9,11 @@ import { actions as AppControl } from "../store/features/appControl.store";
 interface TasksContainerType extends React.PropsWithChildren {}
 
 const TasksContainer: React.FC<TasksContainerType> = ({ children }) => {
-  const [modalOpen, setModalOpen] = useState(false);
+  const modalOpen = useAppSelector((state) => state.AppControl.modalOpen);
+  const dispatch = useAppDispatch();
+  const setModalOpen = (open: boolean) => {
+    dispatch(AppControl.setModalOpen(open));
+  };
 
   return (
     <div className={"py-10 px-[10%]"}>

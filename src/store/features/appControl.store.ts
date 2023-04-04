@@ -10,10 +10,12 @@ export enum OrderBy {
 
 type AppControlType = {
   orderBy: { order: OrderBy; asc: boolean };
+  modalOpen: boolean;
 };
 
 const initialValue: AppControlType = {
   orderBy: { order: OrderBy.Insertion, asc: true },
+  modalOpen: false,
 };
 
 export const AppControlSlice = createSlice({
@@ -25,6 +27,9 @@ export const AppControlSlice = createSlice({
       action: PayloadAction<{ order: OrderBy; asc: boolean }>
     ) => {
       state.orderBy = action.payload;
+    },
+    setModalOpen: (state, action: PayloadAction<boolean>) => {
+      state.modalOpen = action.payload;
     },
   },
 });

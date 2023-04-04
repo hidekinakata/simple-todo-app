@@ -31,6 +31,9 @@ const AddTaskModal: React.FC<AddTaskModalType> = ({
       })
     );
     setModalOpen(false);
+    setTitle("");
+    setStatus("incomplete");
+    setImportant(false);
   };
 
   return (
@@ -51,7 +54,7 @@ const AddTaskModal: React.FC<AddTaskModalType> = ({
               <VscClose className={"stroke-1"} />
             </div>
             <form className="form" onSubmit={(e) => handleSubmit(e)}>
-              <h1 className={"text-xl text-slate-700 mb-4"}>Add Task</h1>
+              <h1 className={"text-xl text-slate-700 mb-4"}>Add To-Do</h1>
               <label htmlFor={"title"} className={"label"}>
                 Title
                 <input
@@ -94,7 +97,7 @@ const AddTaskModal: React.FC<AddTaskModalType> = ({
               </div>
 
               <CustomButtom type={"submit"} className={"justify-self-end"}>
-                Add Task!
+                Add To-Do!
               </CustomButtom>
             </form>
           </div>
